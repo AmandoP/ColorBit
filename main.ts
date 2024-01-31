@@ -838,7 +838,6 @@ namespace colorbit {
         //% weight=79 advanced=true
         //% parts="colorbit"
         show() {
-            ws2812b.sendBuffer(this.buf, this.pin);
             if (this._snakePattern) {
                 for (let y = 0; y < this._length / this._matrixWidth; y += 2) {
                     for (let x = 0; x < this._matrixWidth / 2; x++) {
@@ -860,6 +859,8 @@ namespace colorbit {
                     }
                 }
             }
+            ws2812b.sendBuffer(this.buf, this.pin);
+            
         }
 
         /**
