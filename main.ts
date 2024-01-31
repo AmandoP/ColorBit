@@ -786,7 +786,7 @@ namespace colorbit {
          * @param width number of pixels in a row
          * @param snakePattern option if every second row is reversed
          */
-        //% blockId=colorbit_set_matrix_width block="%colorbit_51bit|set matrix width %width"|snake pattern %snakePattern"
+        //% blockId=colorbit_set_matrix_width block="%colorbit_51bit|set matrix width %width|snake pattern %snakePattern"
         //% blockGap=8
         //% weight=5
         //% parts="colorbit" advanced=true
@@ -1126,15 +1126,14 @@ namespace colorbit {
      * Create a new NeoPixel driver for `numleds` LEDs.
      * @param pin the pin where the colorbit is connected.
      * @param numleds number of leds in the strip, eg: 25
-     * @param snakePattern test
      */
-    //% blockId="colorbit_create" block="NeoPixel at pin %pin|with %numleds|leds as %mode|snake Pattern %snakePattern"
+    //% blockId="colorbit_create" block="NeoPixel at pin %pin|with %numleds|leds as %mode"
     //% weight=90 blockGap=8
     //% parts="colorbit"
     //% trackArgs=0,2
     //% blockSetVariable=colorbit_51bit
     //% advanced=true
-    export function create(pin: DigitalPin = DigitalPin.P0, numleds: number = 25, mode: BitColorMode, snakePattern: boolean): Strip {
+    export function create(pin: DigitalPin = DigitalPin.P0, numleds: number = 25, mode: BitColorMode): Strip {
         let strip = new Strip();
         let stride = mode === BitColorMode.RGBW ? 4 : 3;
         strip.buf = pins.createBuffer(numleds * stride);
