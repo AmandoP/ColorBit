@@ -840,8 +840,8 @@ namespace colorbit {
         show() {
             if (this._snakePattern) {
                 for (let y = 0; y < this._length / this._matrixWidth; y++) {
-                    if (y % 2 === 0) {
-                        // Invert only for even rows (assuming 0-based indexing)
+                    if (y % 2 === 1) {
+                        // Invert only for odd rows (assuming 0-based indexing)
                         for (let x = 0; x < this._matrixWidth / 2; x++) {
                             const leftIndex = ((y * this._matrixWidth) + x) * 3; // Assuming RGB mode
                             const rightIndex = ((y * this._matrixWidth) + (this._matrixWidth - 1 - x)) * 3;
@@ -862,9 +862,7 @@ namespace colorbit {
                     }
                 }
             }
-            
             ws2812b.sendBuffer(this.buf, this.pin);
-            
         }
 
         /**
