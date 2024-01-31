@@ -784,7 +784,7 @@ namespace colorbit {
         /**
          * Sets the number of pixels in a matrix shaped strip
          * @param width number of pixels in a row
-         * @param snakePattern option to flip row 1 and 3
+         * @param snakePattern option if every second row is reversed
          */
         //% blockId=colorbit_set_matrix_width block="%colorbit_51bit|set matrix width %width|snake pattern %snakePattern"
         //% blockGap=8
@@ -793,30 +793,6 @@ namespace colorbit {
         setMatrixWidth(width: number, snakePattern: boolean) {
             this._matrixWidth = Math.min(this._length, width >> 0);
             this._snakePattern = snakePattern;
-            
-            if (this._snakePattern) {
-                for (let y = 0; y < this._length / this._matrixWidth; y++) {
-                    if (y % 2 === 1) {
-                        for (let x = 0; x < this._matrixWidth / 2; x++) {
-                            const leftIndex = ((y * this._matrixWidth) + x) * 3; // Assuming RGB mode
-                            const rightIndex = ((y * this._matrixWidth) + (this._matrixWidth - 1 - x)) * 3;
-        
-                            // Swap RGB values for the left and right pixels
-                            const tempR = this.buf[leftIndex];
-                            const tempG = this.buf[leftIndex + 1];
-                            const tempB = this.buf[leftIndex + 2];
-        
-                            this.buf[leftIndex] = this.buf[rightIndex];
-                            this.buf[leftIndex + 1] = this.buf[rightIndex + 1];
-                            this.buf[leftIndex + 2] = this.buf[rightIndex + 2];
-        
-                            this.buf[rightIndex] = tempR;
-                            this.buf[rightIndex + 1] = tempG;
-                            this.buf[rightIndex + 2] = tempB;
-                        }
-                    }
-                }
-            }
         }
 
         /**
@@ -862,7 +838,32 @@ namespace colorbit {
         //% weight=79 advanced=true
         //% parts="colorbit"
         show() {
+            if (this._snakePattern) {
+                for (let y = 0; y < this._length / this._matrixWidth; y++) {
+                    if (y % 2 === 1) {
+                        // Invert only for odd rows (assuming 0-based indexing)
+                        for (let x = 0; x < this._matrixWidth / 2; x++) {
+                            const leftIndex = ((y * this._matrixWidth) + x) * 3; // Assuming RGB mode
+                            const rightIndex = ((y * this._matrixWidth) + (this._matrixWidth - 1 - x)) * 3;
+            
+                            // Swap RGB values for the left and right pixels
+                            const tempR = this.buf[leftIndex];
+                            const tempG = this.buf[leftIndex + 1];
+                            const tempB = this.buf[leftIndex + 2];
+            
+                            this.buf[leftIndex] = this.buf[rightIndex];
+                            this.buf[leftIndex + 1] = this.buf[rightIndex + 1];
+                            this.buf[leftIndex + 2] = this.buf[rightIndex + 2];
+            
+                            this.buf[rightIndex] = tempR;
+                            this.buf[rightIndex + 1] = tempG;
+                            this.buf[rightIndex + 2] = tempB;
+                        }
+                    }
+                }
+            }
             ws2812b.sendBuffer(this.buf, this.pin);
+            
         }
 
         /**
