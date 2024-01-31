@@ -312,6 +312,7 @@ namespace colorbit {
         _length: number; // number of LEDs
         _mode: BitColorMode;
         _matrixWidth: number; // number of leds in a matrix - if any
+        _snakePattern: boolean;
         ismulticolor: boolean;
         lastcolor: number;
 
